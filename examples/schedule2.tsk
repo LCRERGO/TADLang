@@ -1,0 +1,6 @@
+(schedule cat-error
+    (task error 
+    "A category error"
+    "Category"
+    07/08/2016
+    not-a-cat))

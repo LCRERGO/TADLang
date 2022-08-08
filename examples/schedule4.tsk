@@ -1,0 +1,12 @@
+; example of schedule with multiple tasks
+(schedule normandy
+    (task task1 
+    "a small travel to provence in France"
+    "France"
+    07/08/2016
+    leisure)
+    (task task2
+    "a small travel to Disney"
+    "Florida"
+    05/10/2020
+    leisure))

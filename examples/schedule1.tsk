@@ -1,0 +1,6 @@
+(schedule normandy
+    (task provence 
+    "a small travel to provence in France"
+    "France"
+    07/08/2016
+    leisure))

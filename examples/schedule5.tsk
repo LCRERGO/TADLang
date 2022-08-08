@@ -1,0 +1,12 @@
+; example of schedule with multiple tasks with the same name
+(schedule normandy
+    (task common 
+    "same task name"
+    "France"
+    07/08/2016
+    other)
+    (task common
+    "equal task name"
+    "Florida"
+    05/10/2020
+    other))

@@ -1,0 +1,6 @@
+(schedule :
+    (task symbol-error 
+    "A symbol error"
+    "a lexeme error"
+    07/08/2016
+    other))
