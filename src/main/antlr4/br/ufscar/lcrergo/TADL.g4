@@ -28,6 +28,9 @@ SYMBOL: [a-z][a-z0-9-]*;
 STRING: '"' STRING_FRAGMENT* '"';
 STRING_FRAGMENT: ~[\n\r"];
 
+/* Lexer error capture */
+ERROR: . ; 
+
 /* syntatic rules */
 application:
     schedule EOF;
