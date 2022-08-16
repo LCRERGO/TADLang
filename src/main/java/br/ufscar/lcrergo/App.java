@@ -3,11 +3,8 @@ package br.ufscar.lcrergo;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.xml.transform.ErrorListener;
-
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Token;
 
 public class App 
 {
