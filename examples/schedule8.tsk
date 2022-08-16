@@ -1,0 +1,7 @@
+; example of a string not closed error
+(schedule string-not-closed
+    (task provence 
+    "String ERROR 
+    "France"
+    07/08/2016
+    others))
