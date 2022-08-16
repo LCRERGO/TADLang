@@ -46,6 +46,4 @@ public class Task {
     public Category getCategory() {
         return category;
     }
-
-    
 }

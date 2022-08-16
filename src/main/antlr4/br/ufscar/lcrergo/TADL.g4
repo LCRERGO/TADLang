@@ -2,6 +2,7 @@ grammar TADL;
 
 /* lexer rules */
 /* categories */
+/*
 CATEGORY: 
     'house-chores' |
     'test' |
@@ -10,6 +11,7 @@ CATEGORY:
     'event' |
     'leisure' |
     'others';
+    */
 
 /* List delimeters */
 LPAREN: '(';
@@ -26,9 +28,11 @@ MONTH_DAY: [0-9][0-9];
 YEAR: [0-9][0-9][0-9][0-9];
 SYMBOL: [a-z][a-z0-9-]*;
 STRING: '"' STRING_FRAGMENT* '"';
-STRING_FRAGMENT: ~[\n\r"];
+fragment
+STRING_FRAGMENT: ~["];
 
 /* Lexer error capture */
+STRING_NOT_CLOSED: '"' STRING_FRAGMENT* EOF;
 ERROR: . ; 
 
 /* syntatic rules */
@@ -38,6 +42,6 @@ schedule:
     LPAREN 'schedule' SYMBOL task* RPAREN;
 // task :== ('task' name description place date category)
 task:
-    LPAREN 'task' SYMBOL STRING STRING datetime CATEGORY RPAREN;
+    LPAREN 'task' SYMBOL STRING STRING datetime SYMBOL RPAREN;
 datetime: 
     MONTH_DAY '/' MONTH_DAY '/' YEAR;

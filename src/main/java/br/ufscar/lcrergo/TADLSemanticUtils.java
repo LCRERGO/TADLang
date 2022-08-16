@@ -14,6 +14,12 @@ public class TADLSemanticUtils {
         semanticErrors.add(String.format("Line %d: %s", line, msg));
     }
 
+    public static void printSemanticErrors() {
+        for (var err : semanticErrors) {
+            System.err.println(err);
+        }
+    }
+
     public static List<String> getSemanticErrors() {
         return semanticErrors;
     }

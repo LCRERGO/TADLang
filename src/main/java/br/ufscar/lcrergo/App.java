@@ -13,25 +13,32 @@ public class App
 {
     private static void run(String fname) throws IOException {
         var pw = new PrintWriter(System.out);
+
         var cs = CharStreams.fromFileName(fname);
         var lex = new TADLLexer(cs);
-        Token t = null;
-        // while ((t = lex.nextToken()).getType() != Token.EOF)
-        //    System.out.println("<"+ TADLLexer.VOCABULARY.getDisplayName(t.getType()) + 
-                // "," + t.getText()+">");
-        var tokens = new CommonTokenStream(lex);
-        var parser = new TADLParser(tokens);
+        TADLLexerErrors.treatErrors(lex);
+        var lexerErrors = TADLLexerErrors.getLexerErrors();
 
-        var errorListener = new TADLErrorListener(pw);
-        parser.removeErrorListeners();
-        parser.addErrorListener(errorListener);
+        if (lexerErrors.isEmpty()) {
+            var tokens = new CommonTokenStream(lex);
+            var parser = new TADLParser(tokens);
 
-        var tree = parser.application();
-        var semantic = new TADLSemantic();
-        semantic.visitApplication(tree);
+            var errorListener = new TADLErrorListener(pw);
+            parser.removeErrorListeners();
+            parser.addErrorListener(errorListener);
 
-        System.out.println(semantic.getTable());
+            var tree = parser.application();
+            var semantic = new TADLSemantic();
+            semantic.visitApplication(tree);
 
+            if (!TADLSemanticUtils.getSemanticErrors().isEmpty()) {
+                TADLSemanticUtils.printSemanticErrors();
+            }
+
+            System.out.println(semantic.getTable());
+        } else {
+            TADLLexerErrors.printLexerErrors();
+        }
     }
     public static void main(String[] args)
     {

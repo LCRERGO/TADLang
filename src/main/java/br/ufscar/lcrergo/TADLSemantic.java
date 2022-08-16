@@ -2,6 +2,8 @@ package br.ufscar.lcrergo;
 
 import java.time.format.DateTimeParseException;
 
+import br.ufscar.lcrergo.TADLParser.DatetimeContext;
+
 public class TADLSemantic extends TADLBaseVisitor<Void> {
     private SymbolTable table; 
     private String schName;
@@ -14,31 +16,59 @@ public class TADLSemantic extends TADLBaseVisitor<Void> {
     
     @Override
     public Void visitSchedule(TADLParser.ScheduleContext ctx) {
-        schName = ctx.SYMBOL().getText();
+        if (ctx.RPAREN().getText().contains("missing")) {
+            TADLSemanticUtils.addSemanticError(ctx.getStart(), "Parentesis not closed");
+        }
+
         return super.visitSchedule(ctx);
     } 
 
     @Override
     public Void visitTask(TADLParser.TaskContext ctx) {
-        var category = TADLSemanticUtils.getCategoryType(ctx.CATEGORY().getText());
         Task task;
 
-        var name  = ctx.SYMBOL().getText();
+        var name  = ctx.SYMBOL(0).getText();
         var description = ctx.STRING(0).getText().replaceAll("\"", "");
         var place = ctx.STRING(1).getText().replaceAll("\"", "");
         var date = ctx.datetime().getText();
+        var category = TADLSemanticUtils.getCategoryType(ctx.SYMBOL(1).getText());
 
-        if (category == Category.INVALID) 
+        if (category == Category.INVALID) {
             TADLSemanticUtils.addSemanticError(ctx.getStart(), "Invalid Category");
+        }
 
         try {
             task = new Task(name, description, place, date, category);
-            table.insert(task);
+            if (table.exists(name)) {
+                TADLSemanticUtils.addSemanticError(ctx.getStart(),
+                        String.format("Task %s already declared", name));
+            } else {
+                table.insert(task);
+            }
         } catch (DateTimeParseException | NullPointerException e) {
             TADLSemanticUtils.addSemanticError(ctx.getStart(), "Invalid Task");
         }
 
         return super.visitTask(ctx);
+    }
+
+    @Override
+    public Void visitDatetime(DatetimeContext ctx) {
+        var day = Integer.parseInt(ctx.MONTH_DAY(0).getText());
+        var month = Integer.parseInt(ctx.MONTH_DAY(1).getText());
+        var year = Integer.parseInt(ctx.YEAR().getText());
+
+        if (day <= 0 || day > 31) {
+            TADLSemanticUtils.addSemanticError(ctx.getStart(), "Day out of range");
+        }
+        if (month <= 0 || month > 12) {
+            TADLSemanticUtils.addSemanticError(ctx.getStart(), "Month out of range");
+        }
+        if (year <= 0) {
+            TADLSemanticUtils.addSemanticError(ctx.getStart(), "Year invalid");
+        }
+
+        return super.visitDatetime(ctx);
     }
 
     public SymbolTable getTable() {

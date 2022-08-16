@@ -34,6 +34,7 @@ public class TADLErrorListener implements ANTLRErrorListener {
             RecognitionException e) {
                 var t = (Token)offendingSymbol;
                 String errorMsg;
+
                 if (t.getText().equals("<EOF>")) {
                     errorMsg = line + ": syntatic error near EOF";
                 } else {
