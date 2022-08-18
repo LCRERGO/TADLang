@@ -5,13 +5,14 @@ import java.io.PrintWriter;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.apache.commons.cli.ParseException;
 
 public class App 
 {
-    private static void run(String fname) throws IOException {
+    private static void run(Config cfg) throws IOException {
         var pw = new PrintWriter(System.out);
 
-        var cs = CharStreams.fromFileName(fname);
+        var cs = CharStreams.fromFileName(cfg.getInputFileName());
         var lex = new TADLLexer(cs);
         TADLLexerErrors.treatErrors(lex);
         var lexerErrors = TADLLexerErrors.getLexerErrors();
@@ -30,21 +31,26 @@ public class App
 
             if (!TADLSemanticUtils.getSemanticErrors().isEmpty()) {
                 TADLSemanticUtils.printSemanticErrors();
+            } else {
+                var gen = new Generator(cfg.getOutputFileName(), semantic.getTable(), semantic.getSchName());
+                gen.generate();
             }
 
-            System.out.println(semantic.getTable());
+            // System.out.println(semantic.getTable());
         } else {
             TADLLexerErrors.printLexerErrors();
         }
     }
     public static void main(String[] args)
     {
-        if (args.length < 1) {
-            System.out.printf("Usage: <progname> <input>%n");
-            System.exit(1);
-        } 
+        Config cfg;
         try {
-            run(args[0]);
+            cfg = CmdLineUtils.buildConfig(args);
+            run(cfg);
+        } catch (ParseException e) {
+            CmdLineUtils.printHelpWrapper();
+            System.err.println(e);
+            System.exit(1);
         } catch(IOException e) {
             System.err.println(e);
         }

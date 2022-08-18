@@ -31,7 +31,8 @@ public class Task {
     }
 
     public String toString() {
-        return String.format("{%n name: %s%n description: %s%n place: %s%n date: " + date.toString() +
+        return String.format("{%n name: %s%n description: %s%n place: %s%n date: " + 
+                date.toString().replaceAll("'", "") +
                 "%n category: %s%n}",
                 name,
                 description,
@@ -41,6 +42,18 @@ public class Task {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public DateTimeFormatter getDate() {
+        return date;
     }
 
     public Category getCategory() {

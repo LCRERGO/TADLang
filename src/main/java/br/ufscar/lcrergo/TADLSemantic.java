@@ -19,6 +19,7 @@ public class TADLSemantic extends TADLBaseVisitor<Void> {
         if (ctx.RPAREN().getText().contains("missing")) {
             TADLSemanticUtils.addSemanticError(ctx.getStart(), "Parentesis not closed");
         }
+        this.schName = ctx.SYMBOL().getText();
 
         return super.visitSchedule(ctx);
     } 
@@ -32,6 +33,12 @@ public class TADLSemantic extends TADLBaseVisitor<Void> {
         var place = ctx.STRING(1).getText().replaceAll("\"", "");
         var date = ctx.datetime().getText();
         var category = TADLSemanticUtils.getCategoryType(ctx.SYMBOL(1).getText());
+
+        try {
+            ctx.RPAREN().getText();
+        } catch (NullPointerException e) {
+            TADLSemanticUtils.addSemanticError(ctx.getStart(), "Parentesis not closed");
+        }
 
         if (category == Category.INVALID) {
             TADLSemanticUtils.addSemanticError(ctx.getStart(), "Invalid Category");

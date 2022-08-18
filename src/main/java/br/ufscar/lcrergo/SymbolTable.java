@@ -26,6 +26,10 @@ public class SymbolTable {
         return table.get(key);
     }
 
+    public Map<String, Task> getTable() {
+        return table;
+    }
+
     public String toString() {
         String ret = "{"; 
         for (var entry : table.entrySet()) 
