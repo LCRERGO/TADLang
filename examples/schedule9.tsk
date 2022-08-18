@@ -1,0 +1,7 @@
+; example of a both parentesis not closed error
+(schedule par-not-closed
+    (task provence 
+    "String ERROR"
+    "France"
+    07/08/2016
+    others
