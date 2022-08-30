@@ -47,9 +47,13 @@ public class TADLSemantic extends TADLBaseVisitor<Void> {
 
         try {
             task = new Task(name, description, place, date, category);
-            if (table.exists(name)) {
+            if (table.exists(task.getName())) {
                 TADLSemanticUtils.addSemanticError(ctx.getStart(),
                         String.format("Task %s already declared", name));
+            } else if (table.exists(task.getDate())) {
+                TADLSemanticUtils.addSemanticError(ctx.getStart(),
+                        String.format("Day %s already has a task", 
+                        task.getDate().toString().replaceAll("'", "")));
             } else {
                 table.insert(task);
             }
@@ -66,7 +70,7 @@ public class TADLSemantic extends TADLBaseVisitor<Void> {
         var month = Integer.parseInt(ctx.MONTH_DAY(1).getText());
         var year = Integer.parseInt(ctx.YEAR().getText());
 
-        if (day <= 0 || day > 31) {
+        if (!TADLSemanticUtils.verifyDaysPerMonth(day, month)) {
             TADLSemanticUtils.addSemanticError(ctx.getStart(), "Day out of range");
         }
         if (month <= 0 || month > 12) {

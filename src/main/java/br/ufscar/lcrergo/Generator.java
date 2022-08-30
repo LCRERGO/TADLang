@@ -87,6 +87,8 @@ public class Generator {
                 "padding: 1.5rem 2rem;",
                 "box-shadow: 0 1rem 2rem 0 rgba(0,0,0,0.2);",
                 "border-radius: 0.5rem;",
+                "max-width: 20rem;",
+                "overflow-wrap: anywhere;",
                 "}",
 
                 ".task>h2 {",

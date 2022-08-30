@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.Token;
 
 public class TADLSemanticUtils {
     private static List<String> semanticErrors = new ArrayList<>();
+    private static final int[] DAYS_PER_MOTH = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     // Add a semantic error
     public static void addSemanticError(Token t, String msg) {
@@ -55,5 +56,20 @@ public class TADLSemanticUtils {
         }
 
         return cat;
+    }
+
+    public static boolean verifyDaysPerMonth(int day, int month) {
+        
+        try {
+        var max = DAYS_PER_MOTH[month];
+
+        if (day <= 0 || day > max) {
+            return false;
+        }
+
+        return true;
+    } catch (ArrayIndexOutOfBoundsException e) {
+        return false;
+    }
     }
 }
