@@ -1,6 +1,8 @@
 package br.ufscar.lcrergo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SymbolTable {
@@ -28,6 +30,10 @@ public class SymbolTable {
 
     public Map<String, Task> getTable() {
         return table;
+    }
+
+    public List<Task> getTaskList() {
+        return new ArrayList<Task>(table.values());
     }
 
     public String toString() {

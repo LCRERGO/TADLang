@@ -6,6 +6,9 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+/**
+ * An utility class to build cmdline arguments
+ */
 public class CmdLineUtils {
     private static Options buildOptions() {
         var options = new Options();

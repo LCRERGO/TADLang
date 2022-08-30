@@ -1,6 +1,7 @@
 package br.ufscar.lcrergo;
 
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 import br.ufscar.lcrergo.TADLParser.DatetimeContext;
 
@@ -80,6 +81,10 @@ public class TADLSemantic extends TADLBaseVisitor<Void> {
 
     public SymbolTable getTable() {
         return table;
+    }
+
+    public List<Task> getTaskList() {
+        return table.getTaskList();
     }
 
     public String getSchName() {

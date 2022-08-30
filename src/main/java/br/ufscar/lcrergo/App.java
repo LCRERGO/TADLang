@@ -32,7 +32,7 @@ public class App
             if (!TADLSemanticUtils.getSemanticErrors().isEmpty()) {
                 TADLSemanticUtils.printSemanticErrors();
             } else {
-                var gen = new Generator(cfg.getOutputFileName(), semantic.getTable(), semantic.getSchName());
+                var gen = new Generator(cfg.getOutputFileName(), semantic.getTaskList(), semantic.getSchName());
                 gen.generate();
             }
 

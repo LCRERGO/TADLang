@@ -2,20 +2,27 @@ package br.ufscar.lcrergo;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class Generator {
     private PrintWriter out;
-    private SymbolTable table;
+    private List<Task> tList;
     private String schName;
 
-    public Generator(String fname, SymbolTable table, String schName) throws FileNotFoundException {
-        this.table = table;
+    public Generator(String fname, List<Task> tList, String schName) throws FileNotFoundException {
+        tList.sort((t1, t2) -> {
+            return t1.getName().compareTo(t2.getName());
+        });
+        this.tList = tList;
         this.schName = schName;
         this.out = new PrintWriter(fname);
     }
 
-    public Generator(PrintWriter pw, SymbolTable table, String schName) {
-        this.table = table;
+    public Generator(PrintWriter pw, List<Task> tList, String schName) {
+        tList.sort((t1, t2) -> {
+            return t1.getName().compareTo(t2.getName());
+        });
+        this.tList = tList;
         this.schName = schName;
         this.out = pw;
     }
@@ -41,7 +48,7 @@ public class Generator {
         String[] heads = {
                 "<meta charset='UTF-8'>",
                 "<meta name='viewport' content='width=device-width, initial-scale=1.0'>",
-                "<title>" + schName + "</title>",
+                "<title>" + schName.replaceAll("-", " ") + "</title>",
         };
 
         out.append(prefixTag);
@@ -116,7 +123,7 @@ public class Generator {
         var sufixTag = "</body>";
 
         out.append(prefixTag);
-        out.append("<h1 class='schedule-name'>" + capitalize(schName) + "</h1>");
+        out.append("<h1 class='schedule-name'>" + capitalize(schName.replaceAll("-", " ")) + "</h1>");
         generateTasks();
 
         out.append(sufixTag);
@@ -127,8 +134,7 @@ public class Generator {
         var sufixTag = "</div>";
 
         out.append(prefixTag);
-        for (var entry : table.getTable().entrySet()) {
-            Task task = entry.getValue();
+        for (var task : tList) {
             String[] taskStrs = {
                     "<div class='task'>",
                     "<h2>" + capitalize(task.getName().replaceAll("-", " ")) + "</h2>",
@@ -158,7 +164,25 @@ public class Generator {
         out.append(sufixTag);
     }
 
+    /**
+     * An auxiliar function that capitalizes the str String.
+     * e.g.: str = "hello world" -> "Hello World"
+     * @param str
+     * @return
+     */
     private String capitalize(String str) {
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
+        var strArray = str.split(" ");
+        String retStr;
+        String elem;
+        int i;
+
+        for (i = 0; i < strArray.length; i++) {
+            elem = strArray[i];
+            elem = elem.substring(0, 1).toUpperCase() + elem.substring(1);
+            strArray[i] = elem;
+        }
+        retStr = String.join(" ", strArray);
+
+        return retStr;
     }
 }
