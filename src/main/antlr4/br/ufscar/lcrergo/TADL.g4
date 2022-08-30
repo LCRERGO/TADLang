@@ -1,17 +1,6 @@
 grammar TADL;
 
 /* lexer rules */
-/* categories */
-/*
-CATEGORY: 
-    'house-chores' |
-    'test' |
-    'work' |
-    'homework' |
-    'event' |
-    'leisure' |
-    'others';
-    */
 
 /* List delimeters */
 LPAREN: '(';
