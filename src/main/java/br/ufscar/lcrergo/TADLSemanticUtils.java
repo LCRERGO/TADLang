@@ -59,13 +59,12 @@ public class TADLSemanticUtils {
     }
 
     public static boolean verifyDaysPerMonth(int day, int month) {
-        
         try {
-        var max = DAYS_PER_MOTH[month-1];
+            var max = DAYS_PER_MOTH[month-1];
 
-        if (day <= 0 || day > max) {
-            return false;
-        }
+            if (day <= 0 || day > max) {
+                return false;
+            }
 
         return true;
     } catch (ArrayIndexOutOfBoundsException e) {
