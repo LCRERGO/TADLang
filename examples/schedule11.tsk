@@ -1,10 +1,10 @@
 ; full house task schedule
 (schedule full-house
-    (task poker "Playing poker with friends" "Ubatuba" 30/08/2024 leisure)
+    (task poker "Playing poker with friends" "Ubatuba" 31/08/2024 leisure)
     (task geography-test "Geography test" "Colegio" 15/03/2014 test)
     (task dish-washing "Wash home dishes" "Sao Carlos" 18/08/2022 house-chores)
     (task defcon-presentation "Defcon Presentation" "Las Vegas" 18/07/2023 event)
     (task turing-day "Turing Day" "Sao Paulo" 21/07/2020 work)
-    (task compiler-construction "MIDI Compiler construction" "Sao Paulo" 12/10/2023 homework)
+    (task compiler-construction "MIDI Compiler construction" "Sao Paulo" 20/12/2023 homework)
     (task jogging "Jogging exercise" "Tokyo" 10/07/2019 others)
     )
