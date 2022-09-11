@@ -61,7 +61,7 @@ public class TADLSemanticUtils {
     public static boolean verifyDaysPerMonth(int day, int month) {
         
         try {
-        var max = DAYS_PER_MOTH[month];
+        var max = DAYS_PER_MOTH[month-1];
 
         if (day <= 0 || day > max) {
             return false;
